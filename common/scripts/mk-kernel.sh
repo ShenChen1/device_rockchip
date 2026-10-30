@@ -158,8 +158,8 @@ do_build()
 		kernel*)
 			if [ "$RK_KERNEL_EXTBOOT" = "y" ]; then
 				notice "build kerneldeb and extboot"
-				if [ $RK_ROOTFS_SYSTEM == "ubuntu" ] || [ $RK_ROOTFS_SYSTEM == "debian" ]; then
-					[ $KERNELDEB_NO_BUILD == "y" ] || do_build_kerneldeb
+				if [ "$RK_ROOTFS_SYSTEM" = "ubuntu" ] || [ "$RK_ROOTFS_SYSTEM" = "debian" ]; then
+					[ "$KERNELDEB_NO_BUILD" = "y" ] || do_build_kerneldeb
 				fi
 				do_build_extboot
 			else
