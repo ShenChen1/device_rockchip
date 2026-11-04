@@ -97,5 +97,11 @@ config RK_OTA_PACKAGE_FILE
 	help
 	  Name of custom package-file for OTA under <RK_CHIP_DIR>/.
 
+config RK_PACKAGE_NAME
+	string "custom update package name"
+	default ""
+	help
+	  Custom base name for the compressed update image archive.
+
 endif # Update
 endmenuconfig # Update

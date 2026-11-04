@@ -127,11 +127,39 @@ do_build_updateimg()
 			"$RK_FIRMWARE_DIR/${TYPE/-ab/}.img"
 	fi
 
+	pack_release_gzip "$IMAGE_DIR/update.img" "$OUT_DIR"
+
 	case "$TYPE" in
 		*ota*) EDIT_CMD="edit-ota-package-file" ;;
 		*) EDIT_CMD="edit-package-file" ;;
 	esac
 	notice "\nRun 'make $EDIT_CMD' if you want to change the package-file.\n"
+}
+
+pack_release_gzip()
+{
+	local src_img="$1"
+	local out_dir="$2"
+
+	[ -n "$RK_PACKAGE_NAME" ] || return 0
+	[ -r "$src_img" ] || return 1
+
+	local pkg_name="${RK_PACKAGE_NAME%.gz}"
+	pkg_name="${pkg_name%.img}"
+	local named_img="$(dirname "$src_img")/${pkg_name}.img"
+	local out_gz="$out_dir/${pkg_name}.img.gz"
+
+	ln -f "$src_img" "$named_img"
+	notice "Compressing $named_img to $out_gz (gzip -9)..."
+	if command -v pigz >/dev/null 2>&1; then
+		pigz -9 -c "$named_img" > "$out_gz"
+	else
+		gzip -9 -c "$named_img" > "$out_gz"
+	fi
+	rm -f "$named_img"
+
+	ln -rsf "$out_gz" "$RK_FIRMWARE_DIR/${pkg_name}.img.gz"
+	message "Generated release archive: $RK_FIRMWARE_DIR/${pkg_name}.img.gz"
 }
 
 build_updateimg()
