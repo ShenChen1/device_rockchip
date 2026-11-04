@@ -17,4 +17,4 @@ RK_PARAMETER="parameter-extboot.txt"
 RK_USE_FIT_IMG=y
 RK_PACKAGE_FILE_CUSTOM=y
 RK_PACKAGE_FILE="package-file-extboot"
-RK_PACKAGE_NAME="armsom-${RK_CHIP}-${RK_UBUNTU_NUMBER}-${RK_ROOTFS_TARGET}-$(date +%Y%m%d)"
+RK_PACKAGE_NAME="armsom-cm5-${RK_CHIP}-${RK_UBUNTU_NUMBER}-${RK_ROOTFS_TARGET}-$(date +%Y%m%d%H%M)"
