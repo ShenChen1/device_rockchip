@@ -78,7 +78,7 @@ do_build_extboot()
 	echo -e "label kernel-$KERNEL_VER" >> $EXTBOOT_DIR/extlinux/extlinux.conf
 	echo -e "\tkernel /Image-$KERNEL_VER" >> $EXTBOOT_DIR/extlinux/extlinux.conf
 	echo -e "\tdevicetreedir /" >> $EXTBOOT_DIR/extlinux/extlinux.conf
-	echo -e "\tappend  root=/dev/mmcblk0p${ROOTFS_PART_ID} earlyprintk console=ttyFIQ0 console=tty1 consoleblank=0 loglevel=7 rootwait rw rootfstype=ext4 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory swapaccount=1 switolb=1 coherent_pool=1m" >> $EXTBOOT_DIR/extlinux/extlinux.conf
+	echo -e "\tappend  root=/dev/mmcblk0p${ROOTFS_PART_ID} earlyprintk console=tty1 console=ttyFIQ0,1500000n8 consoleblank=0 loglevel=7 rootwait rw rootfstype=ext4 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory swapaccount=1 switolb=1 coherent_pool=1m" >> $EXTBOOT_DIR/extlinux/extlinux.conf
 
 	cp ${RK_SDK_DIR}/${RK_KERNEL_DTS_DIR}/*.dtb $EXTBOOT_DTB_DIR
 	cp ${RK_SDK_DIR}/${RK_KERNEL_DTS_DIR}/overlay/*.dtbo $EXTBOOT_DTB_DIR/overlay
