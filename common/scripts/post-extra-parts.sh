@@ -12,6 +12,12 @@ for idx in $(seq 1 "$(rk_extra_part_num)"); do
 	OUTDIR="$(rk_extra_part_outdir $idx)"
 	MOUNT_DIR="$(rk_extra_part_mount_dir $idx)"
 
+	ROOTFS_MOUNT_DIR="$(realpath -m "$TARGET_DIR/$MOUNTPOINT")"
+	case "$ROOTFS_MOUNT_DIR" in
+		"$TARGET_DIR"/*) ;;
+		*) error "Extra partition mountpoint escapes rootfs: $MOUNTPOINT"; exit 1 ;;
+	esac
+
 	rm -rf "$FAKEROOT_SCRIPT" "$OUTDIR" "$MOUNT_DIR"
 	mkdir -p "$TARGET_DIR/$MOUNTPOINT" "$(dirname "$MOUNT_DIR")"
 	ln -rsf "$TARGET_DIR/$MOUNTPOINT" "$MOUNT_DIR"

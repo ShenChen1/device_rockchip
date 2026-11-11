@@ -84,7 +84,7 @@ case "$RK_ROOTFS_TYPE" in
 		;;
 esac
 
-if [ "$(readlink sbin/init)" != /lib/systemd/systemd ]; then
+if [ -z "$POST_INIT_SYSTEMD" ]; then
 	message "Fixup basic partitions for non-systemd init..."
 	fixup_basic_part proc /proc
 	fixup_basic_part devtmpfs /dev

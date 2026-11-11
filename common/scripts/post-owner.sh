@@ -8,9 +8,9 @@ if [ "$RK_SUDO_ROOT" ]; then
 		chown -ch $RK_OWNER_UID:$RK_OWNER_UID {} \;
 fi
 
-# buildroot would fixup owner in its fakeroot script
+# Ubuntu installs owners at source; buildroot fixes them in fakeroot.
 case "$POST_OS" in
-	buildroot | ramboot | recovery) exit 0 ;;
+	ubuntu | buildroot | ramboot | recovery) exit 0 ;;
 esac
 
 message "Fixing up owner for $TARGET_DIR..."

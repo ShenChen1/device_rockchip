@@ -529,7 +529,7 @@ main()
 		TAG="$(grep -o "linux-.*-gen-rkr[^.\"]*" "$MANIFEST" | \
 			head -n 1 || true)"
 		MANIFEST="$(basename "$(realpath "$MANIFEST")")"
-		notice "\n############### armsom Linux SDK ###############\n"
+		notice "\n############### anima Linux SDK ###############\n"
 		notice "Manifest: $MANIFEST"
 		if [ "$TAG" ]; then
 			notice "Version: $TAG"

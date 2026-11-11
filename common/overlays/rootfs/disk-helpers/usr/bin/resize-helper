@@ -23,6 +23,15 @@ do_part()
 	FSTYPE=$3
 	OPTS=$4
 
+	# systemd owns resizing these mounts, including failure handling.
+	if awk -v point="$MOUNT_POINT" '
+		$1 !~ /^#/ && $2 == point && $4 ~ /(^|,)x-systemd[.]growfs(,|$)/ { found=1 }
+		END { exit !found }
+	' /etc/fstab; then
+		echo "Skipping $MOUNT_POINT (managed by systemd-growfs)"
+		return
+	fi
+
 	# Check /etc/fstab
 	if ! sed "s/#.*//" /etc/fstab | xargs -n 6 | cut -d' ' -f2 | \
 		grep -q "^$MOUNT_POINT/*$"; then
