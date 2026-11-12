@@ -2,7 +2,7 @@
 
 source "${RK_POST_HELPER:-$(dirname "$(realpath "$0")")/post-helper}"
 
-RK_RSYNC="rsync -av --chmod=u=rwX,go=rX --copy-unsafe-links --keep-dirlinks --exclude .empty --exclude .git --exclude /install.sh"
+RK_RSYNC="rsync -av --chown=0:0 --chmod=u=rwX,go=rX --copy-unsafe-links --keep-dirlinks --exclude .empty --exclude .git --exclude /install.sh"
 RK_OVERLAY_ALLOWED="$@"
 
 [ "$RK_OVERLAY" ] || exit 0
