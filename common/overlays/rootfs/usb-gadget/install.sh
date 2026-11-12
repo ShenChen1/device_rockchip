@@ -112,6 +112,16 @@ install_uvc()
 	ensure_tools "$TARGET_DIR/usr/bin/uvc-gadget"
 }
 
+install_ncm()
+{
+	[ -n "$RK_USB_NCM" ] || return 0
+
+	message "Installing NCM..."
+
+	install -D -m 0644 "$OVERLAY_DIR/ncm.sh" \
+		"$TARGET_DIR/etc/usbdevice.d/ncm.sh"
+}
+
 usb_funcs()
 {
 	{
@@ -153,6 +163,7 @@ install_adbd
 install_mtp
 install_ums
 install_uvc
+install_ncm
 
 $RK_RSYNC "$OVERLAY_DIR/usr" "$OVERLAY_DIR/lib" "$TARGET_DIR/"
 
