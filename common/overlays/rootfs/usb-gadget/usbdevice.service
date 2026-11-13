@@ -2,6 +2,7 @@
 Description=Manage USB device functions
 DefaultDependencies=no
 After=local-fs.target
+Before=sysinit.target
 
 [Service]
 Type=simple

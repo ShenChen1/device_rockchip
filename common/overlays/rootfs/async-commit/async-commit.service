@@ -1,6 +1,8 @@
 [Unit]
 Description=Enable ASYNC_COMMIT for Rockchip BSP kernel > 4.4
 DefaultDependencies=no
+After=local-fs.target systemd-udev-trigger.service
+Before=sysinit.target
 
 [Service]
 Type=oneshot
