@@ -100,6 +100,39 @@ install_systemd_service()
 	ln -rsf "$SERVICE_DIR/$SERVICE" "$WANTS_DIR/$SERVICE"
 }
 
+# In usrmerge layouts, lib is a symlink to usr/lib, which find does not descend
+# into by default; pass usr/lib explicitly and skip missing subdirs.
+cleanup_target_paths()
+{
+	local target_dir="$1"
+	shift
+	local resolved subdir pattern
+	local -a dirs=() find_args=()
+
+	[ "$#" -gt 0 ] || return 0
+	if [ -z "$target_dir" ] || ! resolved="$(realpath -m "$target_dir")" || \
+		[ "$resolved" = "/" ]; then
+		error "Refusing to clean paths in invalid target dir: '$target_dir'"
+		return 1
+	fi
+
+	for subdir in etc lib usr/lib usr/bin; do
+		if [ -d "$target_dir/$subdir" ]; then
+			dirs+=("$target_dir/$subdir")
+		fi
+	done
+	if [ "${#dirs[@]}" -eq 0 ]; then
+		return 0
+	fi
+
+	for pattern in "$@"; do
+		find_args+=(-o -name "$pattern")
+	done
+
+	find "${dirs[@]}" -depth -mindepth 1 \( "${find_args[@]:1}" \) -print0 | \
+		xargs -0 -r rm -rf
+}
+
 set +a
 
 case "$1" in

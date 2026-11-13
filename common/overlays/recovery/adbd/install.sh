@@ -63,9 +63,7 @@ install_adbd()
 if [ ! "$RK_RECOVERY_ADBD" ]; then
 	notice "ADBD disabled..."
 
-	find "$TARGET_DIR/etc" "$TARGET_DIR/lib" "$TARGET_DIR/usr/bin" \
-		-name "*usbdevice*" -print0 -o -name ".usb_config" -print0 \
-		2>/dev/null | xargs -0 rm -rf
+	cleanup_target_paths "$TARGET_DIR" "*usbdevice*" ".usb_config"
 else
 	message "Installing ADBD service..."
 	install_adbd

@@ -5,9 +5,7 @@ TARGET_DIR="$1"
 
 if [ -z "$RK_ROOTFS_INPUT_EVENT_DAEMON" ]; then
 	notice "Disabling input-event-daemon..."
-	find "$TARGET_DIR/etc" "$TARGET_DIR/lib" "$TARGET_DIR/usr" \
-		-name "*input-event-daemon*" -print0 2>/dev/null | \
-		xargs -0 rm -rf
+	cleanup_target_paths "$TARGET_DIR" "*input-event-daemon*"
 	exit 0
 fi
 
@@ -15,11 +13,11 @@ OVERLAY_DIR="$(dirname "$(realpath "$0")")"
 
 message "Installing input-event-daemon service..."
 
-mkdir -p "$TARGET_DIR/etc" "$TARGET_DIR/lib" "$TARGET_DIR/usr/bin"
+mkdir -p "$TARGET_DIR/etc" "$TARGET_DIR/usr/lib" "$TARGET_DIR/lib" \
+	"$TARGET_DIR/usr/bin"
 
 # Conflict with triggerhappy
-find "$TARGET_DIR/etc" "$TARGET_DIR/lib" "$TARGET_DIR/usr/bin" \
-	-name "*triggerhappy*" -print0 | xargs -0 rm -rf
+cleanup_target_paths "$TARGET_DIR" "*triggerhappy*"
 
 $RK_RSYNC "$OVERLAY_DIR/usr" "$OVERLAY_DIR/etc" "$TARGET_DIR/"
 
